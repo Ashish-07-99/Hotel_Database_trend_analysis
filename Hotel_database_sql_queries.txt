@@ -1,0 +1,23 @@
+
+use project1
+
+--Here we use a CTE to bring all the data from different table which we need for analysis which we will then upload to Power bi for Analysis.
+
+with hotels as (
+select * from report18
+union
+select * from report19
+union
+select * from report20)
+
+select * from hotels h
+left join market_segment m on h.market_segment=m.market_segment
+left join meal_cost c on h.meal=c.meal
+
+
+--Here we tried to answer a stakeholder question from sql itself as they wanted to know if the revenue is increasing by year or not.
+
+
+select arrival_date_year,hotel ,cast(sum((stays_in_weekend_nights+stays_in_week_nights)*adr) as int) as revenue 
+from hotels
+group by arrival_date_year,hotel
